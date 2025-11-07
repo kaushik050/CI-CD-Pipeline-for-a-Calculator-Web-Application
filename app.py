@@ -1,29 +1,34 @@
 from flask import Flask, render_template, request
-from calculator import add, sub, mul, div
+from calculator import add, subtract, multiply, divide
 
 app = Flask(__name__)
 
-@app.route("/", methods=["GET", "POST"])
-def home():
+@app.route('/', methods=['GET', 'POST'])
+def index():
     result = None
-    if request.method == "POST":
+    num1 = num2 = ''
+    operation = 'add'
+
+    if request.method == 'POST':
         try:
-            num1 = float(request.form["num1"])
-            num2 = float(request.form["num2"])
-            operation = request.form["operation"]
+            num1 = request.form['num1']
+            num2 = request.form['num2']
+            operation = request.form['operation']
 
-            if operation == "add":
-                result = add(num1, num2)
-            elif operation == "sub":
-                result = sub(num1, num2)
-            elif operation == "mul":
-                result = mul(num1, num2)
-            elif operation == "div":
-                result = div(num1, num2)
-        except Exception as e:
-            result = f"Error: {e}"
+            n1 = float(num1)
+            n2 = float(num2)
 
-    return render_template("index.html", result=result)
+            if operation == 'add':
+                result = add(n1, n2)
+            elif operation == 'subtract':
+                result = subtract(n1, n2)
+            elif operation == 'multiply':
+                result = multiply(n1, n2)
+            elif operation == 'divide':
+                result = divide(n1, n2)
+        except ValueError:
+            result = "Invalid input"
+    return render_template('index.html', result=result, num1=num1, num2=num2, operation=operation)
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     app.run(debug=True)
