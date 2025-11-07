@@ -1,0 +1,141 @@
+PRESENTATION SPEECH: MY CI/CD PIPELINE PROJECT
+
+================================================================================
+INTRODUCTION
+================================================================================
+
+Hi everyone! Today I'm going to walk you through a project I built - a Python Calculator Application with a complete CI/CD pipeline. I'll explain what I did and why I made each decision.
+
+================================================================================
+1. STARTING WITH PYTHON AND THE CALCULATOR
+================================================================================
+
+I started by building a simple calculator using Python. I chose Python because it's simple to read and write, and it's widely used in the industry. I created a Calculator class with methods for add, subtract, multiply, divide, and power operations. 
+
+Why a class? Because it keeps all the calculator logic organized and makes it easy to test. Each method does one thing, so I can test them independently.
+
+================================================================================
+2. ADDING A WEB INTERFACE WITH FLASK
+================================================================================
+
+Next, I wanted to make this accessible through a web browser, so I used Flask - a lightweight Python web framework. I created three endpoints: one for the main calculator page, one for the API that handles calculations, and one for health checks.
+
+Why Flask? It's simple and doesn't add unnecessary complexity. I can build REST APIs easily, which means other applications or mobile apps could use my calculator too. The health check endpoint is important because it lets me know if the app is running properly.
+
+================================================================================
+3. WRITING TESTS - UNITTEST AND PYTEST
+================================================================================
+
+I wrote comprehensive tests using both unittest and pytest. Why both? Unittest comes built into Python, so it's always available. Pytest is more modern and has better features like fixtures and cleaner syntax.
+
+I tested everything - positive numbers, negative numbers, decimals, edge cases like zero, and error handling like division by zero. This is important because when I make changes later, I want to know immediately if I broke something.
+
+I also set up test coverage reporting. This shows me what percentage of my code is actually tested. It helps me find gaps where I might have missed testing something important.
+
+================================================================================
+4. CODE QUALITY WITH FLAKE8
+================================================================================
+
+I added flake8 for linting - it checks my code style and catches errors. Why? Because consistent code style makes everything easier to read and maintain. When working in a team, everyone writes code the same way, which makes collaboration smoother. It also catches simple bugs before they become problems.
+
+================================================================================
+5. DOCKER CONTAINERIZATION
+================================================================================
+
+I created a Dockerfile to containerize my application. Docker packages my app and all its dependencies into a container that runs the same way everywhere - on my laptop, on a test server, or in production.
+
+Why Docker? It solves the "it works on my machine" problem. No more worrying about different Python versions or missing dependencies. I also set up a non-root user for security, which is a best practice.
+
+I included health checks in the Dockerfile so Docker can automatically detect if something goes wrong.
+
+================================================================================
+6. DOCKER COMPOSE FOR LOCAL DEVELOPMENT
+================================================================================
+
+I created a docker-compose.yml file that defines three services: one for running the app, one for running tests, and one for linting. This means I can start everything with one command instead of remembering multiple Docker commands.
+
+Why Docker Compose? It makes local development much easier. Other developers can clone my project and run everything with just "docker-compose up". No need to install Python or manage dependencies manually.
+
+================================================================================
+7. CI/CD PIPELINE WITH GITHUB ACTIONS
+================================================================================
+
+This is where it gets interesting. I set up a GitHub Actions pipeline that automates everything. Here's what it does:
+
+TEST STAGE: Every time I push code, it automatically:
+- Sets up Python 3.11
+- Installs dependencies
+- Runs linting
+- Runs all my tests
+- Generates coverage reports
+
+Why automate this? So I catch bugs immediately, not days later. If my tests fail, I know right away and can fix it before anyone else sees broken code.
+
+BUILD STAGE: After tests pass, it automatically:
+- Builds a Docker image
+- Tags it properly
+- Pushes it to Docker Hub
+
+This means every successful code change results in a deployable image, ready to go.
+
+DEPLOY STAGE: When I push to the main branch, it automatically:
+- Connects to my AWS EC2 server
+- Stops the old container
+- Pulls the latest image
+- Starts the new container
+- Checks that it's working
+
+Why automate deployment? Because manual deployments are slow and error-prone. This way, I can deploy in minutes instead of hours, and I don't have to remember complicated deployment steps.
+
+SECURITY STAGE: It also scans my Docker image for vulnerabilities using Trivy. Security is important, and I want to catch security issues before they reach production.
+
+================================================================================
+8. CLOUD DEPLOYMENT WITH AWS EC2
+================================================================================
+
+I chose AWS EC2 for deployment because it's cloud-based, which means I can scale if needed, and I don't have to maintain physical servers. The automated deployment connects to EC2, deploys the new version, and verifies it's working with health checks.
+
+Why cloud? It's more reliable, easier to scale, and I only pay for what I use.
+
+================================================================================
+9. HELPFUL TOOLS - MAKEFILE AND REQUIREMENTS.TXT
+================================================================================
+
+I created a Makefile with simple commands like "make test" and "make docker-build". This makes common tasks easier - I don't have to remember long commands.
+
+I also have a requirements.txt file that lists all Python packages my project needs. This ensures anyone can install the exact same dependencies I'm using, avoiding "it works on my machine" problems.
+
+================================================================================
+10. WHY ALL OF THIS MATTERS
+================================================================================
+
+You might think this is a lot for a simple calculator, and you're right. But here's why I did it:
+
+First, it demonstrates real-world practices. Companies use these exact same tools and processes for much larger applications. Learning them with a simple project helps me understand how they work.
+
+Second, it saves time. Automated testing catches bugs early. Automated deployment means I can release updates quickly. Code quality tools keep my code maintainable.
+
+Third, it builds good habits. When I work on bigger projects, these practices will be second nature.
+
+And finally, it's reliable. The CI/CD pipeline ensures code quality, tests everything, scans for security issues, and deploys automatically. I can trust the process.
+
+================================================================================
+CONCLUSION
+================================================================================
+
+So to summarize, I built:
+- A Python calculator application
+- A Flask web interface
+- Comprehensive tests with coverage
+- Code quality checks
+- Docker containerization
+- An automated CI/CD pipeline
+- Cloud deployment to AWS
+
+Each piece serves a purpose, and together they create a professional, maintainable project that follows industry best practices. These aren't just academic exercises - these are the tools and processes used by companies every day.
+
+Thank you for listening! I'm happy to answer any questions about what I built or why I made specific choices.
+
+================================================================================
+END OF PRESENTATION
+================================================================================
